@@ -82,7 +82,8 @@
 }
 
 .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-.flag { width: 68px; height: 35px; background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Flag_of_Ethiopia.svg/120px-Flag_of_Ethiopia.svg.png'); background-size: cover; border-radius: 2px; }
+.flag { width: 68px; height: 35px;margin-left: -22px; margin-right: 22px; background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Flag_of_Ethiopia.svg/120px-Flag_of_Ethiopia.svg.png'); background-size: cover; border-radius: 2px; }
+
 .titles h1 { font-family: var(--amharic-font); font-size: 18px; margin: 0; color: var(--primary-blue); text-align: center; }
 .titles h2 { font-size: 20px; margin: 0; color: var(--primary-blue); font-weight: 500; text-align: center; }
 
@@ -124,7 +125,7 @@
 .fan-row {
     display: flex;
     gap: 16px;
-    margin-top: 12px;
+    margin-top: 2px;
     align-items: flex-start;
 }
 .fan-label-stack {
@@ -193,8 +194,8 @@
 .fin-number { font-size: 11px; color: #1b1b1b; }
 .fin_no { font-size: 13px; font-weight: 800; white-space: nowrap; }
 
-.bottom-disclaimer { position: absolute; bottom: 6px; left: 25px; width: calc(100% - 50px); font-size: 8.0px; color: #444; line-height: 1.3; z-index: 4; }
-.sn-wrap { background:hsla(0, 0%, 100%, 0.37);float: right; display: flex; align-items: center; gap: 2px; margin-top: -5px; margin-left: 0px;}
+.bottom-disclaimer { position: absolute; bottom: 6px; left: 20px; width: calc(100% - 50px); font-size: 8.0px; color: #444; line-height: 1.3; z-index: 4; }
+.sn-wrap { background:hsla(0, 0%, 100%, 0.774);float: right; display: flex; align-items: center; gap: 2px; margin-top: -7px; margin-left: 5px; margin-right: -7px;}
 .sn-white-box { background: rgba(255, 255, 255, 0); padding: 2px 8px; font-weight: bold; color: #000; font-size: 14px; }
 
 /* Print optimization */
@@ -202,4 +203,70 @@
     body { background: none; padding: 0; }
     .id-card { box-shadow: none; border: 1px solid #ccc; margin-bottom: 20px; page-break-inside: avoid; width: 560px !important; height: 345px !important; box-sizing: border-box; transform: none !important; }
     .id-card-front, .id-card-back { break-inside: avoid; page-break-inside: avoid; width: 560px !important; height: 345px !important; }
+}
+/* 1. The Wrapper (Add this around your ID cards in the HTML) */
+.card-scaler {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    /* This ensures the container height matches the scaled card height */
+    height: auto; 
+    overflow: visible;
+}
+
+@media (max-width: 600px) {
+    .card-scaler {
+        /* This math calculates the ratio to fit the 560px card into the phone screen */
+        --zoom: 0.6; /* Default zoom for small phones */
+        height: calc(345px * var(--zoom)); /* Force container to scaled height */
+        margin-bottom: 20px;
+    }
+
+    /* Target specific smaller screens like iPhone SE */
+    @media (max-width: 400px) {
+        .card-scaler { --zoom: 0.52; }
+    }
+
+    .id-card {
+        transform: scale(var(--zoom));
+        transform-origin: center center;
+        flex-shrink: 0; /* Prevents the flexbox from squishing the card */
+        margin: 0 !important;
+    }
+}
+/* Responsive Card Container */
+.id-card-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 10px;
+    width: 100%;
+}
+
+@media (max-width: 600px) {
+    .id-card {
+        /* This shrinks the card visually and its physical footprint */
+        /* 0.6 means 60% of original size */
+        zoom: 0.6; 
+        
+        /* Fallback for browsers that prefer scale */
+        -moz-transform: scale(0.6);
+        -moz-transform-origin: center top;
+        
+        /* Ensure no margins are pushing it off screen */
+        margin-left: auto !important;
+        margin-right: auto !important;
+        position: relative;
+        left: 0;
+    }
+}
+
+@media (max-width: 400px) {
+    .id-card {
+        /* Even smaller for very narrow phones like iPhone SE */
+        zoom: 0.53;
+        -moz-transform: scale(0.53);
+    }
 }
