@@ -9,7 +9,7 @@ A small React project to render a replica Ethiopian Digital ID card (front and b
   ```bash
   npm install
   ```
-
+ ```
   npm run dev
   ```
 
